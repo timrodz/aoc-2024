@@ -35,7 +35,6 @@ defmodule AdventOfCode2024.Day4 do
     diagonal_lines =
       matrix
       |> extract_all_diagonals()
-      # |> IO.inspect(label: "DIAGONAL")
       |> Enum.map(&List.to_string/1)
 
     total_diagonal =
@@ -71,6 +70,11 @@ defmodule AdventOfCode2024.Day4 do
     |> Enum.count()
   end
 
+  @doc """
+  ## Examples
+      iex>AdventOfCode2024.Day4.parse_list(["XMASAMX","MMMMXMAS"])
+      3
+  """
   def parse_list(list) do
     list
     |> Enum.map(fn line ->
@@ -133,6 +137,11 @@ defmodule AdventOfCode2024.Day4 do
     end
   end
 
+  @doc """
+  ## Examples
+      iex> AdventOfCode2024.Day4.check_cross([["M", "M", "M", "S", "X", "X", "M", "A", "S", "M"],["M", "S", "A", "M", "X", "M", "S", "M", "S", "A"],["A", "M", "X", "S", "X", "M", "A", "A", "M", "M"],["M", "S", "A", "M", "A", "S", "M", "S", "M", "X"],["X", "M", "A", "S", "A", "M", "X", "A", "M", "M"],["X", "X", "A", "M", "M", "X", "X", "A", "M", "A"],["S", "M", "S", "M", "S", "A", "S", "X", "S", "S"],["S", "A", "X", "A", "M", "A", "S", "A", "A", "A"],["M", "A", "M", "M", "M", "X", "M", "M", "M", "M"],["M", "X", "M", "X", "A", "X", "M", "A", "S", "X"]], 0, 1)
+      true
+  """
   def check_cross(matrix, row, col) do
     top_left =
       matrix |> Enum.at(row) |> Enum.at(col)
@@ -160,6 +169,22 @@ defmodule AdventOfCode2024.Day4 do
     check_patterns(top_left, top_right, middle, bottom_left, bottom_right)
   end
 
+  @doc """
+  ## Examples
+      iex>AdventOfCode2024.Day4.check_patterns("M", "S", "A", "M", "S")
+      true
+      iex>AdventOfCode2024.Day4.check_patterns("S", "M", "A", "S", "M")
+      true
+      iex>AdventOfCode2024.Day4.check_patterns("M", "M", "A", "S", "S")
+      true
+      iex>AdventOfCode2024.Day4.check_patterns("S", "S", "A", "M", "M")
+      true
+
+      iex>AdventOfCode2024.Day4.check_patterns("M", "S", "A", "M", "X")
+      false
+      iex>AdventOfCode2024.Day4.check_patterns("M", "S", "A", "X", "M")
+      false
+  """
   def check_patterns(top_left, top_right, middle, bottom_left, bottom_right) do
     (top_left == "M" and top_right == "S" and middle == "A" and bottom_left == "M" and
        bottom_right == "S") ||
