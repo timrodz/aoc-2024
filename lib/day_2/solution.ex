@@ -1,23 +1,30 @@
-input = "7 6 4 2 1
-1 2 7 8 9
-9 7 6 2 1
-1 3 2 4 5
-8 6 4 4 1
-1 3 6 7 9"
-
-defmodule ReportChecker do
+defmodule AdventOfCode2024.Day2 do
   @min_diff 1
   @max_diff 3
 
-  def process(list) do
-    run_checks(list)
+  def parse_prompt(input) do
+    IO.puts("PROMPT: #{input}")
+
+    String.split(input, "\n")
+    |> Enum.map(&String.split/1)
+    |> Enum.map(fn list -> Enum.map(list, &String.to_integer/1) end)
+    |> Enum.map(&process/1)
+    |> Enum.count(&(&1 == true))
   end
 
-  def process(list, false) do
-    run_checks(list)
+  def parse_prompt_eliminate_one(input) do
+    IO.puts("PROMPT: #{input}")
+
+    String.split(input, "\n")
+    |> Enum.map(&String.split/1)
+    |> Enum.map(fn list -> Enum.map(list, &String.to_integer/1) end)
+    |> Enum.map(&process_eliminate_one/1)
+    |> Enum.count(&(&1 == true))
   end
 
-  def process(list, true) do
+  defp process(list), do: run_checks(list)
+
+  defp process_eliminate_one(list) do
     case run_checks(list) do
       true ->
         true
@@ -70,10 +77,3 @@ defmodule ReportChecker do
 
   defp is_diff_valid?(diff), do: diff >= @min_diff and diff <= @max_diff
 end
-
-String.split(input, "\n")
-|> Enum.map(&String.split/1)
-|> Enum.map(fn list -> Enum.map(list, &String.to_integer/1) end)
-|> Enum.map(&ReportChecker.process(&1, true))
-|> Enum.count(&(&1 == true))
-|> IO.inspect(label: "Safe sequences")
