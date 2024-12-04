@@ -1,9 +1,10 @@
 defmodule AdventOfCode2024.Day1 do
-  def parse_prompt(input) do
-    IO.puts("PROMPT: #{input}")
+  def part_one(input) do
+    IO.puts("Day 1 - PROMPT\n#{input}")
 
     {left_side, right_side} =
-      String.split(input, "\n")
+      input
+      |> String.split("\n", trim: true)
       # Cleans up the input "3   4" and turns it into lists (1 per line) -> [["3", "4"]]
       |> Enum.map(&String.split/1)
       # Grabs those inputs and turns them into integers in tuple form -> [{3, 4}]

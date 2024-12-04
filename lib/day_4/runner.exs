@@ -13,6 +13,5 @@ MAMMMXMMMM
 MXMXAXMASX
 """
 
-# Find and visualize crosses
-crosses = Day4.parse_input_find_crosses(input)
-IO.puts("Number of crosses found: #{length(crosses)}")
+Day4.part_one(input) |> IO.inspect(label: "Part 1")
+Day4.part_two(input) |> length() |> IO.inspect(label: "Part 2")

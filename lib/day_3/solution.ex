@@ -5,17 +5,17 @@ defmodule AdventOfCode2024.Day3 do
   Parses the input for the first part of the challenge
 
   ## Examples
-      iex> AdventOfCode2024.Day3.parse_prompt("mul(123,456)")
+      iex> AdventOfCode2024.Day3.part_one("mul(123,456)")
       56088
 
-      iex> AdventOfCode2024.Day3.parse_prompt("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5)")
+      iex> AdventOfCode2024.Day3.part_one("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5)")
       161
 
-      iex> AdventOfCode2024.Day3.parse_prompt("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5)")
+      iex> AdventOfCode2024.Day3.part_one("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5)")
       161
   """
-  def parse_prompt(input) do
-    IO.puts("PROMPT: #{input}")
+  def part_one(input) do
+    IO.puts("Day 3.1 - PROMPT\n#{input}")
 
     Regex.split(@regex, input, include_captures: true)
     |> Enum.map(&parse_input_short/1)
@@ -27,23 +27,23 @@ defmodule AdventOfCode2024.Day3 do
   Parses the input for the second part of the challenge
 
   ## Examples
-      iex> AdventOfCode2024.Day3.parse_prompt_with_operation("x")
+      iex> AdventOfCode2024.Day3.part_two("x")
       0
 
-      iex> AdventOfCode2024.Day3.parse_prompt_with_operation("mul(x,y)")
+      iex> AdventOfCode2024.Day3.part_two("mul(x,y)")
       0
 
-      iex> AdventOfCode2024.Day3.parse_prompt_with_operation("mul(123,456)")
+      iex> AdventOfCode2024.Day3.part_two("mul(123,456)")
       56088
 
-      iex> AdventOfCode2024.Day3.parse_prompt_with_operation("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5)")
+      iex> AdventOfCode2024.Day3.part_two("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5)")
       161
 
-      iex> AdventOfCode2024.Day3.parse_prompt_with_operation("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5)")
+      iex> AdventOfCode2024.Day3.part_two("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5)")
       48
   """
-  def parse_prompt_with_operation(input) do
-    IO.puts("PROMPT: #{input}")
+  def part_two(input) do
+    IO.puts("Day 3.2 - PROMPT\n#{input}")
 
     Regex.split(@regex, input, include_captures: true)
     |> Enum.reduce({[], :enabled}, fn input, acc ->

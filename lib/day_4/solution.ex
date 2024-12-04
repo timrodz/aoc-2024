@@ -1,24 +1,14 @@
 defmodule AdventOfCode2024.Day4 do
-  def parse_input_part_1(input) do
-    IO.puts("PROMPT\n---\n#{input}\n---")
+  def part_one(input) do
+    IO.puts("Day 4.1 - PROMPT\n#{input}")
 
-    # HORIZONTAL
+    horizontal_lines = input |> String.split("\n", trim: true)
 
-    horizontal_lines =
-      input
-      |> String.split("\n")
+    matrix = horizontal_lines |> Enum.map(&String.graphemes/1)
 
     total_horizontal =
       horizontal_lines
       |> parse_list()
-      |> IO.inspect(label: "HORIZONTAL")
-
-    # VERTICAL
-
-    matrix =
-      horizontal_lines
-      |> Enum.map(&String.graphemes/1)
-      |> IO.inspect(label: "PROMPT AS MATRIX")
 
     vertical_lines =
       matrix
@@ -28,19 +18,34 @@ defmodule AdventOfCode2024.Day4 do
     total_vertical =
       vertical_lines
       |> parse_list()
-      |> IO.inspect(label: "VERTICAL")
-
-    # DIAGONAL
 
     diagonal_lines =
       matrix
       |> extract_all_diagonals()
       |> Enum.map(&List.to_string/1)
 
-    total_diagonal =
-      diagonal_lines |> parse_list() |> IO.inspect(label: "DIAGONAL")
+    total_diagonal = diagonal_lines |> parse_list()
 
     total_horizontal + total_vertical + total_diagonal
+  end
+
+  def part_two(input) do
+    IO.puts("Day 4.2 - PROMPT\n#{input}")
+
+    matrix =
+      input
+      |> String.split("\n", trim: true)
+      |> Enum.map(&String.graphemes/1)
+
+    rows = length(matrix)
+    cols = matrix |> Enum.at(0) |> length()
+
+    # Don't take the last 3 because the crosses are 3x3 in length
+    for r <- 0..(rows - 3),
+        c <- 0..(cols - 3),
+        check_cross(matrix, r, c) do
+      {r, c}
+    end
   end
 
   @doc """
@@ -78,7 +83,7 @@ defmodule AdventOfCode2024.Day4 do
   def parse_list(list) do
     list
     |> Enum.map(fn line ->
-      horizontal(line) + horizontal_backward(line)
+      horizontal(line) + horizontal(line |> String.reverse())
     end)
     |> Enum.sum()
   end
@@ -118,23 +123,6 @@ defmodule AdventOfCode2024.Day4 do
     matrix
     |> List.zip()
     |> Enum.map(&Tuple.to_list/1)
-  end
-
-  def parse_input_find_crosses(matrix_str) do
-    matrix =
-      matrix_str
-      |> String.split("\n", trim: true)
-      |> Enum.map(&String.graphemes/1)
-
-    rows = length(matrix)
-    cols = matrix |> Enum.at(0) |> length()
-
-    # Don't take the last 3 because the crosses are 3x3 in length
-    for r <- 0..(rows - 3),
-        c <- 0..(cols - 3),
-        check_cross(matrix, r, c) do
-      {r, c}
-    end
   end
 
   @doc """
