@@ -15,8 +15,6 @@ defmodule AdventOfCode2024.Day3 do
       161
   """
   def part_one(input) do
-    IO.puts("Day 3.1 - PROMPT\n#{input}")
-
     Regex.split(@regex, input, include_captures: true)
     |> Enum.map(&parse_input_short/1)
     |> Enum.filter(&(is_nil(&1) == false))
@@ -43,8 +41,6 @@ defmodule AdventOfCode2024.Day3 do
       48
   """
   def part_two(input) do
-    IO.puts("Day 3.2 - PROMPT\n#{input}")
-
     Regex.split(@regex, input, include_captures: true)
     |> Enum.reduce({[], :enabled}, fn input, acc ->
       {list, operation} = acc

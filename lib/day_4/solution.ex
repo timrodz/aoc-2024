@@ -1,7 +1,5 @@
 defmodule AdventOfCode2024.Day4 do
   def part_one(input) do
-    IO.puts("Day 4.1 - PROMPT\n#{input}")
-
     horizontal_lines = input |> String.split("\n", trim: true)
 
     matrix = horizontal_lines |> Enum.map(&String.graphemes/1)
@@ -30,8 +28,6 @@ defmodule AdventOfCode2024.Day4 do
   end
 
   def part_two(input) do
-    IO.puts("Day 4.2 - PROMPT\n#{input}")
-
     matrix =
       input
       |> String.split("\n", trim: true)
@@ -46,6 +42,7 @@ defmodule AdventOfCode2024.Day4 do
         check_cross(matrix, r, c) do
       {r, c}
     end
+    |> length()
   end
 
   @doc """

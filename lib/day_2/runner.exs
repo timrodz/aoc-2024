@@ -1,13 +1,11 @@
 alias AdventOfCode2024.Day2
 
-input = """
-7 6 4 2 1
-1 2 7 8 9
-9 7 6 2 1
-1 3 2 4 5
-8 6 4 4 1
-1 3 6 7 9
-"""
+input_example = File.read!("lib/day_2/input.example.txt")
+
+Day2.part_one(input_example) |> IO.inspect(label: "Example Input - Part 1")
+Day2.part_two(input_example) |> IO.inspect(label: "Example Input - Part 2")
+
+input = File.read!("lib/day_2/input.txt")
 
 Day2.part_one(input) |> IO.inspect(label: "Part 1")
 Day2.part_two(input) |> IO.inspect(label: "Part 2")

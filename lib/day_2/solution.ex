@@ -3,8 +3,6 @@ defmodule AdventOfCode2024.Day2 do
   @max_diff 3
 
   def part_one(input) do
-    IO.puts("Day 2.1 - PROMPT\n#{input}")
-
     input
     |> String.split("\n", trim: true)
     |> Enum.map(&String.split/1)
@@ -14,8 +12,6 @@ defmodule AdventOfCode2024.Day2 do
   end
 
   def part_two(input) do
-    IO.puts("Day 2.2 - PROMPT\n#{input}")
-
     input
     |> String.split("\n", trim: true)
     |> Enum.map(&String.split/1)
