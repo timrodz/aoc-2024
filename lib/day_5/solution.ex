@@ -32,7 +32,7 @@ defmodule AdventOfCode2024.Day5 do
     |> Enum.map(fn {_updates, middle_item, _pass} -> middle_item end)
   end
 
-  defp get_middle_item(updates) do
+  def get_middle_item(updates) do
     index = ((length(updates) - 1) / 2) |> round()
     updates |> Enum.at(index)
   end

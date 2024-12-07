@@ -4,16 +4,16 @@ input = File.read!("lib/day_7/input.txt")
 
 operations = Day7.parse_input(input)
 
-possible_permutations =
+operation_permutations =
   operations
   |> Enum.map(fn {_, sequence} -> sequence |> length() end)
   |> Enum.uniq()
   |> Enum.map(&{&1, Day7.generate_permutations(&1, ["+", "*"])})
   |> Map.new()
 
-operation_results = Day7.parse_operations(operations, possible_permutations)
+operation_results = Day7.parse_operations(operations, operation_permutations)
 
-part_1 =
+sum_of_passed_operations =
   operation_results
   |> Enum.filter(fn {_, _, pass?} -> pass? == true end)
   |> Enum.map(fn {compare_value, _, _} -> compare_value end)
@@ -25,19 +25,19 @@ failed_operations =
   |> Enum.filter(fn {_, _, pass?} -> pass? == false end)
   |> Enum.map(fn {compare_value, sequence, _} -> {compare_value, sequence} end)
 
-possible_failed_permutations =
+failed_operation_permutations =
   operations
   |> Enum.map(fn {_, sequence} -> sequence |> length() end)
   |> Enum.uniq()
   |> Enum.map(&{&1, Day7.generate_permutations(&1, ["+", "*", "|"])})
   |> Map.new()
 
-part_2 =
+sum_of_failed_operations =
   failed_operations
-  |> Day7.parse_operations(possible_failed_permutations)
+  |> Day7.parse_operations(failed_operation_permutations)
   |> Enum.filter(fn {_, _, pass?} -> pass? == true end)
   |> Enum.map(fn {compare_value, _, _} -> compare_value end)
   |> Enum.sum()
 
-(part_1 + part_2)
-|> IO.inspect(label: "Part 2")
+final_result = sum_of_passed_operations + sum_of_failed_operations
+IO.inspect(final_result, label: "Part 2")

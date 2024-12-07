@@ -1,34 +1,44 @@
 defmodule Day3Test do
   use ExUnit.Case
-  doctest AdventOfCode2024.Day3
+  alias AdventOfCode2024.Day3
+  doctest Day3
 
-  # test "part_one/1" do
-  #   assert Day3.part_one("mul(123,456)") == [123, 456]
+  test "part_one returns 0 for empty string" do
+    assert Day3.part_one("") == 0
+  end
 
-  #   assert Day3.part_one(
-  #            "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5)"
-  #          ) ==
-  #            [2, 4, 3, 7, 5, 5, 32, 64, 11, 8, 8, 5]
+  test "part_one handles invalid multiplication format" do
+    assert Day3.part_one("mul(abc,def)") == 0
+  end
 
-  #   assert Day3.part_one(
-  #            "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5)"
-  #          ) ==
-  #            [2, 4, 3, 7, 5, 5, 32, 64, 11, 8, 8, 5]
-  # end
+  test "part_two handles disabled operations" do
+    input = "mul(2,3)don't()mul(4,5)mul(6,7)"
+    assert Day3.part_two(input) == 6
+  end
 
-  # test "part_one/2" do
-  #   assert Day3.part_one("mul(123,456)", part: :two) == [123, 456]
+  test "calculate_operations handles empty list" do
+    assert Day3.calculate_operations([]) == 0
+  end
 
-  #   assert Day3.part_one(
-  #            "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5)",
-  #            part: :two
-  #          ) ==
-  #            [2, 4, 3, 7, 5, 5, 32, 64, 11, 8, 8, 5]
+  test "parse_input_short handles invalid number formats" do
+    assert Day3.parse_input_short("mul(abc,123)") == nil
+    assert Day3.parse_input_short("mul(123,def)") == nil
+  end
 
-  #   assert Day3.part_one(
-  #            "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5)",
-  #            part: :two
-  #          ) ==
-  #            [2, 4, 3, 7, 5, 5, 32, 64, 11, 8, 8, 5]
-  # end
+  test "parse_input_short with operation status" do
+    assert Day3.parse_input_short("mul(2,3)", :disabled) == nil
+    assert Day3.parse_input_short("random text", :enabled) == nil
+  end
+
+  test "with_clause validates input format" do
+    assert Day3.with_clause("not_mul(1,2)") == nil
+    assert Day3.with_clause("mul(1,2") == nil
+    assert Day3.with_clause("mul(999,999)") == {999, 999}
+  end
+
+  test "multiply performs basic multiplication" do
+    assert Day3.multiply(5, 7) == 35
+    assert Day3.multiply(0, 10) == 0
+    assert Day3.multiply(-2, 3) == -6
+  end
 end

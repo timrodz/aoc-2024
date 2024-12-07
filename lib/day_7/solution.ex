@@ -3,9 +3,9 @@ defmodule AdventOfCode2024.Day7 do
     input
     |> String.split("\n", trim: true)
     |> Enum.map(fn line ->
-      [compare_value, sequence] = String.split(line, ": ", trim: true)
+      [target_value, sequence] = String.split(line, ": ", trim: true)
 
-      {compare_value |> String.to_integer(),
+      {target_value |> String.to_integer(),
        sequence |> String.split(" ") |> Enum.map(&String.to_integer/1)}
     end)
   end
@@ -25,16 +25,16 @@ defmodule AdventOfCode2024.Day7 do
 
   def parse_operations(operations, all_possible_permutations) do
     operations
-    |> Enum.map(fn {compare_value, sequence} ->
+    |> Enum.map(fn {target_value, sequence} ->
       permutations = get_permutations_for_sequence(all_possible_permutations, sequence)
       equations = get_equations(sequence, permutations)
-      pass? = equations |> Enum.any?(&matches_value?(&1, compare_value))
+      pass? = equations |> Enum.any?(&matches_value?(&1, target_value))
 
-      {compare_value, sequence, pass?}
+      {target_value, sequence, pass?}
     end)
   end
 
-  def matches_value?(equation, compare_value) do
+  def matches_value?(equation, target_value) do
     {value, _} =
       equation
       # Drop the first number in the equation because it's passed in the reducer as the starting accumulator
@@ -52,7 +52,7 @@ defmodule AdventOfCode2024.Day7 do
         {value, op}
       end)
 
-    value == compare_value
+    value == target_value
   end
 
   def generate_permutations(num_numbers, operators) do
