@@ -73,53 +73,50 @@ defmodule AdventOfCode2024.Day9 do
     |> Enum.filter(&(&1 != []))
   end
 
+  def move_file_groups_to_available_spaces(list, file_id)
+  def move_file_groups_to_available_spaces(list, 0), do: list
+
   def move_file_groups_to_available_spaces(list, file_id) do
     files_to_move = list |> Enum.filter(&(&1 == file_id))
 
     total_files_to_move = length(files_to_move)
 
-    case file_id do
-      0 ->
-        list
+    space_group =
+      get_free_space_groups(list, file_id, total_files_to_move)
+      |> Enum.map(fn group -> {group |> Enum.at(0), group} end)
+      |> Enum.find(fn {_, group} -> length(group) >= total_files_to_move end)
 
-      _ ->
-        group =
-          get_free_space_groups(list, file_id, total_files_to_move)
-          |> Enum.map(fn group -> {group |> Enum.at(0), group} end)
-          |> Enum.find(fn {_, group} -> length(group) >= total_files_to_move end)
+    case space_group do
+      nil ->
+        move_file_groups_to_available_spaces(list, file_id - 1)
 
-        case group do
-          nil ->
-            move_file_groups_to_available_spaces(list, file_id - 1)
+      {first_space_index, spaces} ->
+        pre_insertions = Enum.slice(list, 0..(first_space_index - 1))
 
-          {first_space_index, spaces} ->
-            pre_insertions = Enum.slice(list, 0..(first_space_index - 1))
+        insertions =
+          spaces
+          |> Enum.with_index()
+          |> Enum.map(fn {_, index} ->
+            if index < total_files_to_move do
+              file_id
+            else
+              nil
+            end
+          end)
 
-            insertions =
-              spaces
-              |> Enum.with_index()
-              |> Enum.map(fn {_space, index} ->
-                if index < total_files_to_move do
-                  file_id
-                else
-                  nil
-                end
-              end)
+        post_insertions =
+          Enum.drop(list, first_space_index + length(insertions))
+          |> Enum.map(fn value ->
+            case value == file_id do
+              true -> nil
+              false -> value
+            end
+          end)
 
-            post_insertions =
-              Enum.drop(list, first_space_index + length(spaces))
-              |> Enum.map(fn value ->
-                case value == file_id do
-                  true -> nil
-                  false -> value
-                end
-              end)
-
-            move_file_groups_to_available_spaces(
-              pre_insertions ++ insertions ++ post_insertions,
-              file_id - 1
-            )
-        end
+        move_file_groups_to_available_spaces(
+          pre_insertions ++ insertions ++ post_insertions,
+          file_id - 1
+        )
     end
   end
 
