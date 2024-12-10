@@ -1,6 +1,5 @@
 alias AdventOfCode2024.Day5
 
-# [rules, updates] = File.read!("lib/day_5/input.example.txt") |> Day5.parse_prompt()
 [rules, updates] = File.read!("lib/day_5/input.txt") |> Day5.parse_prompt()
 
 parsed_updates =
