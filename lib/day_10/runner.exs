@@ -1,6 +1,6 @@
 alias AdventOfCode2024.Day10
 
-input = File.read!("lib/day_10/input.example.txt")
+input = File.read!("lib/day_10/input.txt")
 
 map = Day10.parse_input(input)
 
